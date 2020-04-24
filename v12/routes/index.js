@@ -11,6 +11,7 @@ router.get("/register",function(req,res){
 });
 router.post("/register",function(req,res){
 	var newUser=new User({username:req.body.username});
+	//不要把password也当作第一个参数传入，单独做第二个参数，可以hash加盐。
 	User.register(newUser,req.body.password,function(err,user){
 		if(err){
 			req.flash("error",err.message);
@@ -29,9 +30,12 @@ router.post("/login",passport.authenticate("local",
 	{
 		successRedirect:"/campgrounds",
 		failureRedirect:"/login"
-	}),function(req,res){
+	})
+	//上面的部分作为中间件，成功就redirect到"/campgrounds"，下面的函数没有执行任何东西。
+	,function(req,res){
 });
 router.get("/logout",function(req,res){
+	//都是authenticate那几个包自带的方法。
 	req.logout();
 	req.flash("success","Logged you out");
 	res.redirect("/campgrounds");

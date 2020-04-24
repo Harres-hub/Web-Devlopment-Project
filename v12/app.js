@@ -36,12 +36,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//Authenticate那几个包自带的方法，这样用一个中间件，
+//可以取到req.user，在很多地方可以用到现在登陆的用户是谁。
 app.use(function(req,res,next){
 	res.locals.currentUser=req.user;
 	res.locals.error=req.flash("error");
 	res.locals.success=req.flash("success");
 	next();
 });
+
 // var campgrounds=[
 // 		{name:"Beijing",image:"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1579716084315&di=b28b5329e932684b9fd2faa3f2f5e407&imgtype=0&src=http%3A%2F%2Fimg8.zol.com.cn%2Fbbs%2Fupload%2F24424%2F24423921.JPG"},
 // 		{name:"Shanghai",image:"https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=274940466,28484806&fm=26&gp=0.jpg"},

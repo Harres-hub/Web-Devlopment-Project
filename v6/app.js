@@ -109,6 +109,7 @@ app.get("/register",function(req,res){
 });
 app.post("/register",function(req,res){
 	var newUser=new User({username:req.body.username});
+	//不要把password也当作第一个参数传入，单独做第二个参数，可以hash加盐。
 	User.register(newUser,req.body.password,function(err,user){
 		if(err){
 			console.log(err);
